@@ -1,6 +1,0 @@
-<launch>
-    <arg name="port" default="/dev/ttyUSB0" />
-    <arg name="baud" default="115200" />
-    <node name="serial_node" pkg="rosserial_python" type="serial_node.py" args="/dev/ttyUSB0 _baud:=115200" />
-    <node name="owi_node" pkg="owi" type="owi_node.py" output="screen" />
-</launch>
