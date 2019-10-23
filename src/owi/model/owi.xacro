@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+ 
+<robot name="owi" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="common_thickness" value="0.03" />
+
+  <!-- Macro to generate pure radial link for revolute joint -->
+  <xacro:macro name="radial_link" params="name length">
+    <link name="${name}">
+
+      <visual>
+        <geometry>
+          <box size="${length-common_thickness} ${common_thickness} ${common_thickness}" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="${length/2} 0 0" />
+      </visual>
+
+      <visual>
+        <geometry>
+          <cylinder length="${common_thickness}" radius="${common_thickness/2}" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      </visual>
+
+    </link>
+  </xacro:macro>
+
+  <!-- Macro to generate a pure axial_link -->
+  <xacro:macro name="axial_link" params="name length">
+    <link name="${name}">
+
+      <visual>
+        <geometry>
+          <cylinder length="${length}" radius = "${common_thickness/2}" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 ${length/2}" />
+      </visual>
+
+    </link>
+  </xacro:macro>
+
+  <!-- Macro to generate revolute joint on D-H convention -->
+  <!-- Assume position theta* = 0, radial and twist can use parent x axis -->
+  <!-- Use degree for angle -->
+  <xacro:macro name="revolute_joint" params="parent child radial axial twist lo_limit hi_limit">
+    <joint name="${parent}_${child}" type="revolute">
+      <parent link="${parent}" />
+      <child link="${child}" />
+      <axis xyz="0 0 1" />
+      <origin rpy="${pi*twist/180} 0 0" xyz="${radial} 0 ${axial}" />
+      <limit effort="100" lower="${pi*lo_limit/180}" upper="${pi*hi_limit/180}" velocity="1" />
+    </joint>
+  </xacro:macro>
+
+
+  <!-- robot model  -->
+  <link name="world" />
+
+  <joint name="world_to_base" type="fixed">
+    <parent link="world" />
+    <child link="base_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="${common_thickness}" radius="${common_thickness}" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 ${common_thickness/2}" />
+    </visual>
+
+    <visual>
+      <geometry>
+        <box size="0.12 0.06 ${common_thickness}" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.06 0 ${common_thickness/2}" />
+    </visual>
+
+  </link> 
+
+
+  <xacro:revolute_joint parent="base_link" child="link1" radial="0" axial="${1.5*common_thickness}" twist="0" lo_limit="-90" hi_limit="90" />  
+  <xacro:axial_link name="link1" length="0" />
+
+  <xacro:revolute_joint parent="link1" child="link2" radial="0" axial="0" twist="90" lo_limit="0" hi_limit="180" /> 
+  <xacro:radial_link name="link2" length="0.085" />
+
+  <xacro:revolute_joint parent="link2" child="link3" radial="0.085" axial="0" twist="0" lo_limit="-135" hi_limit="135" /> 
+  <xacro:radial_link name="link3" length="0.115" />
+
+  <xacro:revolute_joint parent="link3" child="link4" radial="0.115" axial="0" twist="0" lo_limit="-60" hi_limit="60" />
+  <xacro:radial_link name="link4" length="0.05" />
+
+</robot>
