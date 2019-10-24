@@ -2,54 +2,63 @@
  
 <robot name="owi" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="common_thickness" value="0.03" />
+  <xacro:property name="w" value="0.03" />
 
-  <!-- Macro to generate pure radial link for revolute joint -->
-  <xacro:macro name="radial_link" params="name length">
+  <!-- Macro to generate a link for manipulator, using reference frame of previous joint -->
+  <xacro:macro name="alink" params="name radial=0 axial=0">
     <link name="${name}">
-
+      <!-- elbow -->
       <visual>
         <geometry>
-          <box size="${length-common_thickness} ${common_thickness} ${common_thickness}" />
-        </geometry>
-        <origin rpy="0 0 0" xyz="${length/2} 0 0" />
-      </visual>
-
-      <visual>
-        <geometry>
-          <cylinder length="${common_thickness}" radius="${common_thickness/2}" />
+          <cylinder length="${w}" radius="${w/2}" />
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0" />
       </visual>
-
-    </link>
-  </xacro:macro>
-
-  <!-- Macro to generate a pure axial_link -->
-  <xacro:macro name="axial_link" params="name length">
-    <link name="${name}">
-
+      <!-- axial -->
       <visual>
         <geometry>
-          <cylinder length="${length}" radius = "${common_thickness/2}" />
+          <box size="${w} ${w} ${axial}" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 ${length/2}" />
+        <origin rpy="0 0 0" xyz="0 0 ${axial/2}" />
+      </visual>
+      <!-- radial -->
+      <visual>
+        <geometry>
+          <box size="${radial} ${w} ${w}" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="${radial/2} 0 ${axial}" />
       </visual>
 
     </link>
   </xacro:macro>
 
-  <!-- Macro to generate revolute joint on D-H convention -->
-  <!-- Assume position theta* = 0, radial and twist can use parent x axis -->
+  <!-- Macro to generate a joint on D-H convention, using reference frame of previous joint -->
+  <!-- Assume position theta* = 0, radial and twist are along/around parent x axis -->
   <!-- Use degree for angle -->
-  <xacro:macro name="revolute_joint" params="parent child radial axial twist lo_limit hi_limit">
-    <joint name="${parent}_${child}" type="revolute">
+  <xacro:macro name="ajoint" params="type parent child radial=0 axial=0 twist=0 lo_limit=-180 hi_limit=180 effort=100 velocity=1">
+    <joint name="${parent}_${child}" type="${type}">
       <parent link="${parent}" />
       <child link="${child}" />
       <axis xyz="0 0 1" />
       <origin rpy="${pi*twist/180} 0 0" xyz="${radial} 0 ${axial}" />
-      <limit effort="100" lower="${pi*lo_limit/180}" upper="${pi*hi_limit/180}" velocity="1" />
+      <!-- revolute joint -->
+      <xacro:if value="${type == 'revolute'}">
+        <limit effort="${effort}" lower="${pi*lo_limit/180}" upper="${pi*hi_limit/180}" velocity="${velocity}" />
+      </xacro:if>
+      <!-- prismatic joint -->
+      <xacro:if value="${type == 'prismatic'}">
+        <limit effort="${effort}" lower="${lo_limit}" upper="${hi_limit}" velocity="${velocity}" />
+      </xacro:if>
     </joint>
+  </xacro:macro>
+
+  <!-- Macro to generate a joint and link from previous joint, using reference frame of previous joint -->
+  <!-- Assume position theta* = 0, radial and twist can use previous joint x axis -->
+  <!-- Use degree for angle -->
+  <xacro:macro name="linked_joint" params="type parent child radial=0 axial=0 twist=0 lo_limit hi_limit">
+    <xacro:alink name="${parent}" radial="${radial}" axial="${axial}" />
+    <xacro:ajoint type="${type}" parent="${parent}" child="${child}" radial="${radial}" axial="${axial}" twist="${twist}" lo_limit="${lo_limit}" hi_limit="${hi_limit}" /> 
+
   </xacro:macro>
 
 
@@ -65,31 +74,31 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <cylinder length="${common_thickness}" radius="${common_thickness}" />
+        <cylinder length="${w}" radius="${w}" />
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 ${common_thickness/2}" />
+      <origin rpy="0 0 0" xyz="0 0 ${w/2}" />
     </visual>
 
     <visual>
       <geometry>
-        <box size="0.12 0.06 ${common_thickness}" />
+        <box size="0.12 0.06 ${w}" />
       </geometry>
-      <origin rpy="0 0 0" xyz="-0.06 0 ${common_thickness/2}" />
+      <origin rpy="0 0 0" xyz="-0.06 0 ${w/2}" />
     </visual>
 
   </link> 
 
+  <xacro:ajoint type="revolute" parent="base_link" child="link1" axial="${1.5*w}" lo_limit="-90" hi_limit="90" />  
 
-  <xacro:revolute_joint parent="base_link" child="link1" radial="0" axial="${1.5*common_thickness}" twist="0" lo_limit="-90" hi_limit="90" />  
-  <xacro:axial_link name="link1" length="0" />
+  <xacro:linked_joint type="revolute" parent="link1" child="link2" twist="90" lo_limit="0" hi_limit="180" /> 
 
-  <xacro:revolute_joint parent="link1" child="link2" radial="0" axial="0" twist="90" lo_limit="0" hi_limit="180" /> 
-  <xacro:radial_link name="link2" length="0.085" />
+  <xacro:linked_joint type="revolute" parent="link2" child="link3" radial="0.085" lo_limit="-135" hi_limit="135" /> 
 
-  <xacro:revolute_joint parent="link2" child="link3" radial="0.085" axial="0" twist="0" lo_limit="-135" hi_limit="135" /> 
-  <xacro:radial_link name="link3" length="0.115" />
+  <xacro:linked_joint type="revolute" parent="link3" child="link4" radial="0.115" lo_limit="-60" hi_limit="60" />
 
-  <xacro:revolute_joint parent="link3" child="link4" radial="0.115" axial="0" twist="0" lo_limit="-60" hi_limit="60" />
-  <xacro:radial_link name="link4" length="0.05" />
+  <xacro:linked_joint type="revolute" parent="link4" child="gripper" radial="0.05" lo_limit="-60" hi_limit="60" />
+
+  <link name="gripper">
+  </link> 
 
 </robot>
