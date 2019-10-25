@@ -50,8 +50,8 @@
   <!-- Macro to generate a joint on D-H convention, using reference frame of previous joint -->
   <!-- Assume position theta* = 0, radial and twist are along/around parent x axis -->
   <!-- Use degree for angle -->
-  <xacro:macro name="ajoint" params="type parent child radial=0 axial=0 twist=0 lo_limit=-180 hi_limit=180 effort=100 velocity=1">
-    <joint name="${parent}_${child}" type="${type}">
+  <xacro:macro name="ajoint" params="type parent child radial=0 axial=0 twist=0 lo_limit=-180 hi_limit=180 effort=100 velocity=1 mimic=none">
+    <joint name="$joint${child}" type="${type}">
       <parent link="${parent}" />
       <child link="${child}" />
       <axis xyz="0 0 1" />
@@ -64,19 +64,24 @@
       <xacro:if value="${type == 'prismatic'}">
         <limit effort="${effort}" lower="${lo_limit}" upper="${hi_limit}" velocity="${velocity}" />
       </xacro:if>
+      <!-- mimic joint -->
+      <xacro:if value="${mimic != 'none'}">
+        <mimic joint="${mimic}" />>
+      </xacro:if>
     </joint>
   </xacro:macro>
+
 
   <!-- robot model  -->
   <link name="world" />
 
-  <joint name="world_to_base" type="fixed">
+  <joint name="worldBase" type="fixed">
     <parent link="world" />
-    <child link="base_link" />
+    <child link="baselink" />
     <origin rpy="0 0 0" xyz="0 0 0" />
   </joint>
 
-  <link name="base_link">
+  <link name="baselink">
     <visual>
       <geometry>
         <cylinder length="0.05" radius="0.05" />
@@ -106,28 +111,28 @@
     </collision>
   </link> 
 
-  <xacro:ajoint type="revolute" parent="base_link" child="link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
+  <xacro:ajoint type="revolute" parent="baselink" child="Link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
 
-  <link name="link1" />
+  <link name="Link1" />
 
-  <xacro:ajoint type="revolute" parent="link1" child="link2" twist="90" lo_limit="0" hi_limit="180" /> 
+  <xacro:ajoint type="revolute" parent="Link1" child="Link2" twist="90" lo_limit="0" hi_limit="180" /> 
 
-  <xacro:alink name="link2" radial="0.085" />
+  <xacro:alink name="Link2" radial="0.085" />
 
-  <xacro:ajoint type="revolute" parent="link2" child="link3" radial="0.085" lo_limit="-135" hi_limit="135" /> 
+  <xacro:ajoint type="revolute" parent="Link2" child="Link3" radial="0.085" lo_limit="-135" hi_limit="135" /> 
 
-  <xacro:alink name="link3" radial="0.115" />
+  <xacro:alink name="Link3" radial="0.115" />
 
-  <xacro:ajoint type="revolute" parent="link3" child="link4" radial="0.115" lo_limit="-60" hi_limit="60" />
+  <xacro:ajoint type="revolute" parent="Link3" child="Link4" radial="0.115" lo_limit="-60" hi_limit="60" />
   
-  <xacro:alink name="link4" radial="0.06" />
+  <xacro:alink name="Link4" radial="0.06" />
 
-  <xacro:ajoint type="revolute" parent="link4" child="r_gripper" twist="90" radial="0.06" axial="0.005" lo_limit="0" hi_limit="90" />
+  <xacro:ajoint type="revolute" parent="Link4" child="Rgripper" twist="90" radial="0.06" axial="0.005" lo_limit="0" hi_limit="90" />
 
-  <xacro:ajoint type="revolute" parent="link4" child="l_gripper" twist="-90" radial="0.06" axial="-0.005" lo_limit="0" hi_limit="90" />
+  <!-- <xacro:ajoint type="revolute" parent="Link4" child="Lgripper" twist="-90" radial="0.06" axial="-0.005" lo_limit="0" hi_limit="90" mimic="Link4Rgripper" /> -->
 
-  <xacro:alink name="l_gripper" radial="0.03" w="0.01" />
 
-  <xacro:alink name="r_gripper" radial="0.03" w="0.01" />
+  <xacro:alink name="Rgripper" radial="0.03" w="0.01" />
 
+  <!-- <xacro:alink name="Lgripper" radial="0.03" w="0.01" /> -->
 </robot>
