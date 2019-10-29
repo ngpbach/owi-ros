@@ -51,7 +51,7 @@
   <!-- Assume position theta* = 0, radial and twist are along/around parent x axis -->
   <!-- Use degree for angle -->
   <xacro:macro name="ajoint" params="type parent child radial=0 axial=0 twist=0 lo_limit=-180 hi_limit=180 effort=100 velocity=1 mimic=none">
-    <joint name="joint_${child}" type="${type}">
+    <joint name="joint${child}" type="${type}">
       <parent link="${parent}" />
       <child link="${child}" />
       <axis xyz="0 0 1" />
@@ -73,15 +73,7 @@
 
 
   <!-- robot model  -->
-  <link name="world" />
-
-  <joint name="jointBase" type="fixed">
-    <parent link="world" />
-    <child link="base_link" />
-    <origin rpy="0 0 0" xyz="0 0 0" />
-  </joint>
-
-  <link name="base_link">
+  <link name="baselink">
     <visual>
       <geometry>
         <cylinder length="0.05" radius="0.05" />
@@ -129,7 +121,8 @@
 
   <xacro:ajoint type="revolute" parent="Link4" child="Rgripper" twist="90" radial="0.06" axial="0.005" lo_limit="0" hi_limit="90" />
 
-  <xacro:ajoint type="revolute" parent="Link4" child="Lgripper" twist="-90" radial="0.06" axial="-0.005" lo_limit="0" hi_limit="90" mimic="joint_Rgripper" />
+  <xacro:ajoint type="revolute" parent="Link4" child="Lgripper" twist="-90" radial="0.06" axial="-0.005" lo_limit="0" hi_limit="90" mimic="jointRgripper" />
+
 
   <xacro:alink name="Rgripper" radial="0.03" w="0.01" />
 
