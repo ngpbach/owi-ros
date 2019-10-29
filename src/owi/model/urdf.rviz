@@ -98,10 +98,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        world:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Name: RobotModel
       Robot Description: robot_description
       TF Prefix: ""
@@ -127,24 +123,21 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        world:
-          Value: true
-      Marker Scale: 0.10000000149011612
+      Marker Scale: 0.15000000596046448
       Name: TF
       Show Arrows: false
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          base_link:
-            Link1:
-              Link2:
-                Link3:
-                  Link4:
-                    Lgripper:
-                      {}
-                    Rgripper:
-                      {}
+        base_link:
+          Link1:
+            Link2:
+              Link3:
+                Link4:
+                  Lgripper:
+                    {}
+                  Rgripper:
+                    {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -175,7 +168,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.0052696466445923
+      Distance: 0.6715501546859741
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -190,10 +183,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8353979587554932
+      Pitch: 0.2003975808620453
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.516781806945801
+      Yaw: 4.866763114929199
     Saved: ~
 Window Geometry:
   Displays:
@@ -211,5 +204,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1216
-  X: 364
-  Y: 10
+  X: 2519
+  Y: 88
