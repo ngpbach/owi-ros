@@ -2,6 +2,7 @@
 import sys
 import os
 import time
+import numpy
 import rospy
 from PySide2 import QtCore, QtWidgets, QtUiTools
 import random
@@ -27,7 +28,7 @@ def callback(data):
     state = JointState()
     for i,name in enumerate(joint_names):
         state.name.append(name)
-        state.position.append(data.position[i]/180)
+        state.position.append(numpy.pi*float(data.position[i])/180)
 
     statePub.publish(state)
 

@@ -73,7 +73,7 @@
 
 
   <!-- robot model  -->
-  <link name="baselink">
+  <link name="base_link">
     <visual>
       <geometry>
         <cylinder length="0.05" radius="0.05" />
@@ -103,7 +103,7 @@
     </collision>
   </link> 
 
-  <xacro:ajoint type="revolute" parent="baselink" child="Link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
+  <xacro:ajoint type="revolute" parent="base_link" child="Link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
 
   <link name="Link1" />
 
