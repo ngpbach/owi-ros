@@ -123,7 +123,7 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-      Marker Scale: 0.15000000596046448
+      Marker Scale: 0.05
       Name: TF
       Show Arrows: false
       Show Axes: true
