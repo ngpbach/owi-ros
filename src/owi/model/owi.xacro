@@ -44,6 +44,10 @@
         </geometry>
         <origin rpy="0 0 0" xyz="${radial/2} 0 ${axial}" />
       </collision>
+      <intnertial>
+        <mass value="0.1"/>
+        <inertia ixx="0.033" iyy="0.033" izz="0.033" ixy="0.0" ixz="0.0" iyz="0.0"/>
+      </intnertial>
     </link>
   </xacro:macro>
 
@@ -90,7 +94,7 @@
 
     <collision>
       <geometry>
-        <cylinder length="0.05" radius="0.05" />
+        <cylinder length="0.04" radius="0.05" />
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0.025" />
     </collision>
@@ -101,6 +105,11 @@
       </geometry>
       <origin rpy="0 0 0" xyz="-0.1 0 0.025" />
     </collision>
+
+    <intnertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.0" ixz="0.0" iyz="0.0"/>
+    </intnertial>
   </link> 
 
   <xacro:ajoint type="revolute" parent="base_link" child="Link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
@@ -119,9 +128,26 @@
   
   <xacro:alink name="Link4" radial="0.06" />
 
-  <xacro:ajoint type="revolute" parent="Link4" child="Rgripper" twist="90" radial="0.06" axial="0.005" lo_limit="0" hi_limit="90" />
+  <joint name="dummy1" type="revolute">
+    <parent link="Link4" />
+    <child link="grip_base" />
+    <axis xyz="0 0 1" />
+    <origin rpy="${0.5*pi} 0 0" xyz="0.06 0 0" />
+    <limit effort="100" velocity="1" lower="-10" upper="10" />
+  </joint>
 
-  <xacro:ajoint type="revolute" parent="Link4" child="Lgripper" twist="-90" radial="0.06" axial="-0.005" lo_limit="0" hi_limit="90" mimic="jointRgripper" />
+  <link name="grip_base">
+    <visual>
+      <geometry>
+        <box size="0 0 0" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+    </visual>
+  </link>
+
+  <xacro:ajoint type="revolute" parent="Link4" child="Rgripper" twist="90" radial="0.06" axial="0.006" lo_limit="0" hi_limit="90" />
+
+  <xacro:ajoint type="revolute" parent="Link4" child="Lgripper" twist="-90" radial="0.06" axial="-0.006" lo_limit="0" hi_limit="90" mimic="jointRgripper" />
 
 
   <xacro:alink name="Rgripper" radial="0.03" w="0.01" />
