@@ -9,7 +9,7 @@ import random
 from sensor_msgs.msg import JointState
 import owi.msg
 
-cmdPub = rospy.Publisher("command", owi.msg.position_cmd, queue_size=10)
+cmdPub = rospy.Publisher("owi_pos_command", owi.msg.position_cmd, queue_size=10)
 statePub = rospy.Publisher("owi_state_report", JointState, queue_size=10)
 textbox = 0 
 joint_names = [ "jointLink1",
