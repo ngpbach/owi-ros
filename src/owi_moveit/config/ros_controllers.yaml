@@ -13,7 +13,6 @@ hardware_interface:
     - jointLink2
     - jointLink3
     - jointLink4
-    - dummy1
     - jointRgripper
   sim_control_mode: 1  # 0: position, 1: velocity
 # Publish all joint states
@@ -23,3 +22,31 @@ joint_state_controller:
   publish_rate: 50
 controller_list:
   []
+arm_position_controller:
+  type: position_controllers/JointPositionController
+  joints:
+    - jointLink1
+    - jointLink2
+    - jointLink3
+    - jointLink4
+  gains:
+    jointLink1:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    jointLink2:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    jointLink3:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1
+    jointLink4:
+      p: 100
+      d: 1
+      i: 1
+      i_clamp: 1

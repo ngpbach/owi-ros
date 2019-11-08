@@ -8,4 +8,3 @@ controller_list:
       - jointLink2
       - jointLink3
       - jointLink4
-      - dummy1

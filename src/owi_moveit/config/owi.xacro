@@ -34,13 +34,13 @@
       <!-- radial -->
       <visual>
         <geometry>
-          <box size="${radial/2} ${w/2} ${w/2}" />
+          <box size="${radial} ${w/2} ${w/2}" />
         </geometry>
         <origin rpy="0 0 0" xyz="${radial/2} 0 ${axial}" />
       </visual>
       <collision>
         <geometry>
-          <box size="${radial/2} ${w/2} ${w/2}" />
+          <box size="${radial} ${w/2} ${w/2}" />
         </geometry>
         <origin rpy="0 0 0" xyz="${radial/2} 0 ${axial}" />
       </collision>
@@ -128,15 +128,15 @@
   
   <xacro:alink name="Link4" radial="0.06" />
 
-  <joint name="dummy1" type="revolute">
+  <joint name="dummy_joint" type="revolute">
     <parent link="Link4" />
-    <child link="grip_base" />
+    <child link="dummy_eef" />
     <axis xyz="0 0 1" />
     <origin rpy="${0.5*pi} 0 0" xyz="0.06 0 0" />
     <limit effort="100" velocity="1" lower="-10" upper="10" />
   </joint>
 
-  <link name="grip_base">
+  <link name="dummy_eef">
     <visual>
       <geometry>
         <box size="0 0 0" />

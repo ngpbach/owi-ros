@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
-    package: owi
-    relative_path: model/owi.xacro
+    package: owi_moveit
+    relative_path: config/owi.xacro
     xacro_args: "--inorder "
   SRDF:
     relative_path: config/owi.srdf
   CONFIG:
     author_name: bnguye14
     author_email: ngpbach@gmail.com
-    generated_timestamp: 1573177765
+    generated_timestamp: 1573188424

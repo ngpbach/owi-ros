@@ -22,7 +22,7 @@ def handler(value):
     cmdPub.publish((value,90,0,0,0))
 
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + " joint angles deg: %s", data.position)
+    # rospy.loginfo(rospy.get_caller_id() + " joint angles deg: %s", data.position)
     textbox.setText("%d\t %d\t %d\t %d\t %d" % (data.position[0], data.position[1], data.position[2], data.position[3], data.position[4]))
 
     state = JointState()
@@ -42,8 +42,8 @@ def main():
     uiFilename = os.path.join(os.path.dirname(__file__), "CtrlPanel.ui")
     window = QtUiTools.QUiLoader().load(uiFilename)
 
-    slider0 = window.findChild(QtWidgets.QSpinBox, "spinBox_1")
-    slider0.valueChanged.connect(handler)
+    slider0 = window.findChild(QtWidgets.QScrollBar, "verticalScrollBar")
+    slider0.sliderMoved.connect(handler)
     
     textbox = window.findChild(QtWidgets.QLabel, "label_6")
     textbox.setText("hello")
