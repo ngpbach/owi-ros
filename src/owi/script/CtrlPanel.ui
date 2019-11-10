@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1159</width>
-    <height>909</height>
+    <width>522</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,15 +17,15 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>560</y>
+      <x>60</x>
+      <y>70</y>
       <width>401</width>
       <height>241</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
-      <widget class="QScrollBar" name="verticalScrollBar">
+      <widget class="QScrollBar" name="verticalScrollBar_1">
        <property name="minimumSize">
         <size>
          <width>14</width>
@@ -62,7 +62,7 @@
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QScrollBar" name="verticalScrollBar_2">
+      <widget class="QScrollBar" name="verticalScrollBar_3">
        <property name="minimumSize">
         <size>
          <width>14</width>
@@ -116,14 +116,14 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label_1">
        <property name="text">
         <string>Joint0</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QScrollBar" name="verticalScrollBar_4">
+      <widget class="QScrollBar" name="verticalScrollBar_2">
        <property name="minimumSize">
         <size>
          <width>14</width>
@@ -163,7 +163,7 @@
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Joint2</string>
        </property>
@@ -177,14 +177,14 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Joint1</string>
        </property>
       </widget>
      </item>
      <item row="0" column="3">
-      <widget class="QScrollBar" name="verticalScrollBar_3">
+      <widget class="QScrollBar" name="verticalScrollBar_4">
        <property name="minimumSize">
         <size>
          <width>14</width>
@@ -311,10 +311,10 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>370</y>
-      <width>611</width>
-      <height>71</height>
+      <x>100</x>
+      <y>40</y>
+      <width>321</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -325,6 +325,19 @@
     </property>
     <property name="text">
      <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>320</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Actuate</string>
     </property>
    </widget>
   </widget>
@@ -348,140 +361,140 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>601</x>
-     <y>632</y>
+     <x>402</x>
+     <y>160</y>
     </hint>
     <hint type="destinationlabel">
-     <x>626</x>
-     <y>767</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalScrollBar_3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_4</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>524</x>
-     <y>644</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>544</x>
-     <y>771</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalScrollBar_2</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>444</x>
-     <y>622</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>468</x>
-     <y>773</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>verticalScrollBar</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_1</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>290</x>
-     <y>631</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>307</x>
-     <y>764</y>
+     <x>441</x>
+     <y>295</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>verticalScrollBar_4</sender>
    <signal>valueChanged(int)</signal>
+   <receiver>spinBox_4</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>327</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalScrollBar_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>244</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalScrollBar_1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>114</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalScrollBar_2</sender>
+   <signal>valueChanged(int)</signal>
    <receiver>spinBox_2</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>629</y>
+     <x>165</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>390</x>
-     <y>780</y>
+     <x>208</x>
+     <y>295</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>spinBox_1</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>verticalScrollBar</receiver>
+   <receiver>verticalScrollBar_1</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>330</x>
-     <y>761</y>
+     <x>129</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>290</x>
-     <y>614</y>
+     <x>90</x>
+     <y>142</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>spinBox_2</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>verticalScrollBar_4</receiver>
+   <receiver>verticalScrollBar_2</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>415</x>
-     <y>763</y>
+     <x>208</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>368</x>
-     <y>614</y>
+     <x>165</x>
+     <y>142</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>spinBox_3</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>verticalScrollBar_2</receiver>
+   <receiver>verticalScrollBar_3</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>490</x>
-     <y>771</y>
+     <x>291</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>448</x>
-     <y>607</y>
+     <x>244</x>
+     <y>135</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>spinBox_4</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>verticalScrollBar_3</receiver>
+   <receiver>verticalScrollBar_4</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>572</x>
-     <y>774</y>
+     <x>366</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>527</x>
-     <y>618</y>
+     <x>327</x>
+     <y>146</y>
     </hint>
    </hints>
   </connection>
@@ -492,12 +505,12 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>648</x>
-     <y>769</y>
+     <x>441</x>
+     <y>295</y>
     </hint>
     <hint type="destinationlabel">
-     <x>603</x>
-     <y>610</y>
+     <x>402</x>
+     <y>138</y>
     </hint>
    </hints>
   </connection>

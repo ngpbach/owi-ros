@@ -63,7 +63,7 @@
     <param name="port" value="/dev/ttyUSB0" />
     <param name="baud" value="115200" />
   </node>
-  <node name="owi_node" pkg="owi" type="owi_node.py" required="true"/> 
+  <node name="owi_node" pkg="owi" type="owi_node.py" /> 
 
   <!-- Moveit script -->
   <node name="owi_moveit_node" pkg="owi" type="owi_moveit.py" respawn="false" output="screen" />

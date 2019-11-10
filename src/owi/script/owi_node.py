@@ -9,48 +9,56 @@ import random
 from sensor_msgs.msg import JointState
 import owi.msg
 
-cmdPub = rospy.Publisher("owi_pos_command", owi.msg.position_cmd, queue_size=10)
-statePub = rospy.Publisher("owi_state_report", JointState, queue_size=10)
-textbox = 0 
-joint_names = [ "jointLink1",
-                "jointLink2",
-                "jointLink3",
-                "jointLink4",
-                "jointRgripper"]
 
-def handler(value):
-    cmdPub.publish((value,90,0,0,0))
+class Panel():
 
-def callback(data):
-    # rospy.loginfo(rospy.get_caller_id() + " joint angles deg: %s", data.position)
-    textbox.setText("%d\t %d\t %d\t %d\t %d" % (data.position[0], data.position[1], data.position[2], data.position[3], data.position[4]))
+    @classmethod
+    def __init__(cls):
+        rospy.init_node("owi_node", anonymous=True)
+        rospy.Subscriber("state", owi.msg.joint_state, cls.callback)
+        cls.cmdPub = rospy.Publisher("command", owi.msg.position_cmd, queue_size=10)
+        cls.statePub = rospy.Publisher("owi_state_report", JointState, queue_size=10)
 
-    state = JointState()
-    for i,name in enumerate(joint_names):
-        state.name.append(name)
-        state.position.append(numpy.pi*float(data.position[i])/180)
+        cls.state = JointState()
+        cls.state.name =  [ "jointLink1",
+                            "jointLink2",
+                            "jointLink3",
+                            "jointLink4",
+                            "jointRgripper"]
+        cls.state.position = [0,numpy.pi/2,0,0,0] 
 
-    statePub.publish(state)
+        QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
+        app = QtWidgets.QApplication(sys.argv)
+        uiFilename = os.path.join(os.path.dirname(__file__), "CtrlPanel.ui")
+        window = QtUiTools.QUiLoader().load(uiFilename)
 
-def main():    
-    global textbox
-    rospy.init_node("owi_node", anonymous=True)
-    rospy.Subscriber("state", owi.msg.joint_state, callback)
+        cls.textbox = window.findChild(QtWidgets.QLabel, "label_6")
+        cls.spinbox1 = window.findChild(QtWidgets.QSpinBox, "spinBox_1")
+        cls.spinbox2 = window.findChild(QtWidgets.QSpinBox, "spinBox_2")
+        cls.spinbox3 = window.findChild(QtWidgets.QSpinBox, "spinBox_3")
+        cls.spinbox4 = window.findChild(QtWidgets.QSpinBox, "spinBox_4")
+        cls.spinbox5 = window.findChild(QtWidgets.QSpinBox, "spinBox_5")
+        cls.button = window.findChild(QtWidgets.QPushButton, "pushButton")
 
-    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
-    app = QtWidgets.QApplication(sys.argv)
-    uiFilename = os.path.join(os.path.dirname(__file__), "CtrlPanel.ui")
-    window = QtUiTools.QUiLoader().load(uiFilename)
+        cls.button.clicked.connect(cls.handler)
+        window.show()
+        sys.exit(app.exec_())
 
-    slider0 = window.findChild(QtWidgets.QScrollBar, "verticalScrollBar")
-    slider0.sliderMoved.connect(handler)
-    
-    textbox = window.findChild(QtWidgets.QLabel, "label_6")
-    textbox.setText("hello")
+    @classmethod
+    def handler(cls, value):
+        cls.cmdPub.publish((cls.spinbox1.value(), cls.spinbox2.value(), cls.spinbox3.value(), cls.spinbox4.value(), cls.spinbox5.value()))
 
-    window.show()
+    @classmethod
+    def callback(cls, data):
+        # rospy.loginfo(rospy.get_caller_id() + " joint angles deg: %s", data.position)
+        cls.textbox.setText("%d\t %d\t %d\t %d\t %d" % (data.position[0], data.position[1], data.position[2], data.position[3], data.position[4]))
 
-    sys.exit(app.exec_())
+        for i in range(len(cls.state.name)):
+            cls.state.position[i] = numpy.pi*float(data.position[i])/180
+
+        cls.statePub.publish(cls.state)
 
 if __name__ == '__main__':
-    main()
+    Panel()
+
+
