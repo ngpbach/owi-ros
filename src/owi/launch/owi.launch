@@ -58,11 +58,12 @@
     <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
   </include>
 
-  <!-- OWI node to relay robot states and commands -->
-  <node name="rosserial" pkg="rosserial_python" type="serial_node.py">
+  <!-- Serial node to recompile serial data to topics -->
+  <node name="rosserial_node" pkg="rosserial_python" type="serial_node.py">
     <param name="port" value="/dev/ttyUSB0" />
     <param name="baud" value="115200" />
   </node>
+  <!-- OWI node to relay robot states and commands -->
   <node name="owi_node" pkg="owi" type="owi_node.py" /> 
 
   <!-- Moveit script -->
