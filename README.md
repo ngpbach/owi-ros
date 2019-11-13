@@ -2,9 +2,11 @@
 Description
 ============
 
-This project is meant to use the power of ROS and Arduino to bring the low cost 4dof OWI Robotic Arm Edge to life.
+This project intend to use the power of ROS and Arduino to bring life to the low cost 4dof OWI Robotic Arm Edge: 
 
-This is the ROS part of the project, the Arduino part can be accessed at:
+https://www.amazon.com/OWI-Robotic-Soldering-Required-Extensive/dp/B0017OFRCY
+
+This repo is the ROS side of the project. The Arduino side can be checked out at:
 
 https://github.com/ngpbach/owi-arduino
 
