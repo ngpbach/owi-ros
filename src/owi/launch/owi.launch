@@ -66,6 +66,6 @@
   <!-- OWI node to relay robot states and commands -->
   <node name="owi_node" pkg="owi" type="owi_node.py" /> 
 
-  <!-- Moveit script -->
+  <!-- OWI node to use MOVEIT APIs to control robot -->
   <node name="owi_moveit_node" pkg="owi" type="owi_moveit.py" respawn="false" output="screen" />
 </launch>
