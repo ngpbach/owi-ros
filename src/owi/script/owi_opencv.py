@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 
 import cv2
+import os
 import rospy
 import time
 import numpy as np
@@ -12,8 +13,8 @@ def giveCommand(displacement):
 
     cmd_pos = list(cur_pos)
     
-    cmd_pos[0] += 0.05*displacement[0]   
-    cmd_pos[1] += 0.05*displacement[1]
+    cmd_pos[0] += int(0.1*displacement[0])
+    cmd_pos[2] += int(0.1*displacement[1])
 
     print(cmd_pos)
     cmdPub.publish(cmd_pos)
@@ -35,18 +36,31 @@ while(True):
     ret, frame = cap.read()
     center = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2))
 
+    face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
+  
+    # Detects faces of different sizes in the input image 
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5) 
+  
+    for (x,y,w,h) in faces: 
+        # To draw a rectangle in a face  
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),2)  
+        roi_gray = gray[y:y+h, x:x+w] 
+        roi_color = frame[y:y+h, x:x+w] 
+
     params = cv2.SimpleBlobDetector_Params()
 
     params.filterByArea = True
-    params.minArea = 1000
+    params.minArea = 2000
     params.maxArea = 100000
 
     params.filterByColor = 1
     params.blobColor = 0
 
     params.filterByCircularity = True
-    params.minCircularity = 0.5
-    params.maxCircularity = 0.8
+    params.minCircularity = 0.77
+    params.maxCircularity = 0.79
 
     detector = cv2.SimpleBlobDetector_create(params)
     keypoints = detector.detect(frame)
