@@ -27,7 +27,7 @@ def report_cb(data):
 rospy.init_node("owi_opencv_node", anonymous=True)
 rospy.Subscriber("state", owi.msg.joint_state, report_cb)
 cmdPub = rospy.Publisher("command", owi.msg.position_cmd, queue_size=10)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(3)
 cur_pos = None
 displacement = None
 
@@ -35,19 +35,6 @@ while(True):
 
     ret, frame = cap.read()
     center = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2))
-
-    face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
-  
-    # Detects faces of different sizes in the input image 
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5) 
-  
-    for (x,y,w,h) in faces: 
-        # To draw a rectangle in a face  
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),2)  
-        roi_gray = gray[y:y+h, x:x+w] 
-        roi_color = frame[y:y+h, x:x+w] 
 
     params = cv2.SimpleBlobDetector_Params()
 
@@ -59,13 +46,13 @@ while(True):
     params.blobColor = 0
 
     params.filterByCircularity = True
-    params.minCircularity = 0.77
-    params.maxCircularity = 0.79
+    params.minCircularity = 0.7
+    params.maxCircularity = 0.8
 
     detector = cv2.SimpleBlobDetector_create(params)
     keypoints = detector.detect(frame)
 
-    if (keypoints):
+    if keypoints:
         centroid = (int(keypoints[0].pt[0]), int(keypoints[0].pt[1]))
         displacement = np.subtract(center, centroid)
 

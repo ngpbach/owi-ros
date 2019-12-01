@@ -112,8 +112,28 @@
     </intnertial>
   </link> 
 
-  <xacro:ajoint type="revolute" parent="base_link" child="Link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
+  <joint name="camera_fixed" type="fixed">
+    <parent link="base_link" />
+    <child link="kinect2_link" />
+    <origin rpy="${-0.5*pi} 0 ${-0.25*pi}" xyz="-0.5 -0.5 0" />
+  </joint>
+  <link name="kinect2_link" />
 
+  <joint name="nose_pos" type="floating">
+    <parent link="kinect2_link" />
+    <child link="nose_link" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+  </joint>
+  <link name="nose_link">
+      <visual>
+      <geometry>
+        <sphere radius="0.03" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+    </visual>
+  </link>
+  
+  <xacro:ajoint type="revolute" parent="base_link" child="Link1" axial="0.065" lo_limit="-90" hi_limit="90" /> 
   <link name="Link1" />
 
   <xacro:ajoint type="revolute" parent="Link1" child="Link2" twist="90" lo_limit="0" hi_limit="180" /> 
@@ -135,22 +155,16 @@
     <origin rpy="${0.5*pi} 0 0" xyz="0.06 0 0" />
     <limit effort="100" velocity="1" lower="-10" upper="10" />
   </joint>
-
-  <link name="dummy_eef">
-    <visual>
-      <geometry>
-        <box size="0 0 0" />
-      </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0" />
-    </visual>
-  </link>
+  <link name="dummy_eef" />
 
   <xacro:ajoint type="revolute" parent="Link4" child="Rgripper" twist="90" radial="0.06" axial="0.006" lo_limit="0" hi_limit="90" />
 
   <xacro:ajoint type="revolute" parent="Link4" child="Lgripper" twist="-90" radial="0.06" axial="-0.006" lo_limit="0" hi_limit="90" mimic="jointRgripper" />
 
-
   <xacro:alink name="Rgripper" radial="0.03" w="0.01" />
 
-  <xacro:alink name="Lgripper" radial="0.03" w="0.01" />
+  <xacro:alink name="Lgripper" radial="0.03" w="0.01" /> 
+
+
+
 </robot>
