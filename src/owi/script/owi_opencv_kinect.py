@@ -18,7 +18,7 @@ class image_converter:
     self.bridge = CvBridge()
     self.image_sub = rospy.Subscriber("/kinect2/sd/image_color_rect", Image, self.img_callback)
     self.depth_sub = rospy.Subscriber("/kinect2/sd/points", PointCloud2, self.depth_callback)
-    self.tfbr = tf2_ros.TransformBroadcaster()
+    self.br = tf2_ros.TransformBroadcaster()
     self.nose = TransformStamped()
     self.centroid = None
 
@@ -35,7 +35,7 @@ class image_converter:
         self.nose.transform.translation.y = p[1]
         self.nose.transform.translation.z = p[2]
         self.nose.transform.rotation.w = 1
-        self.tfbr.sendTransform(self.nose)
+        self.br.sendTransform(self.nose)
 
 
 
@@ -49,7 +49,7 @@ class image_converter:
     center = (frame_w/2, frame_h/2)
 
     # haarcascade face detection
-    face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+    face_cascade = cv2.CascadeClassifier("lbpcascade_frontalface_improved.xml")
 
     # convert to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) 
